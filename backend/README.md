@@ -10,13 +10,13 @@ To install this backend application, follow these steps:
 2. Navigate to the `backend` directory using `cd Task-Tracker-Team6/backend`.
 3. Install the required dependencies using `npm install`.
 4. Create a `.env` file in the root of the `backend` directory and add the following environment variables:
-   MONGODB_URI=<your MongoDB URI>
-   PORT=<your desired port number>
-   NODE_ENV=<either "development" or "production">
+   `MONGODB_URI=<your MongoDB URI>`
+   `PORT=<your desired port number>`
+   `NODE_ENV=<either "development" or "production">`
 5. Create a `.test.env` file in the root of the `backend` directory and add the following environment variables:
-   MONGODB_URI=<your test MongoDB URI>
-   PORT=<your test port number>
-   NODE_ENV=test
+   `MONGODB_URI=<your test MongoDB URI>`
+   `PORT=<your test port number>`
+   `NODE_ENV=test`
 
 ## Usage
 
