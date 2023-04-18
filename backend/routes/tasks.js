@@ -4,10 +4,19 @@ const Task = require("../database/model/task");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+  const { title, status, dueDate, dueDateBefore } = req.query;
+  const filters = {
+    ...(title && { title: { $regex: title, $options: "i" } }),
+    ...(status && { status }),
+    ...(dueDate && { dueDate: dueDate }),
+    ...(dueDateBefore && { dueDate: { $lte: dueDateBefore } }),
+  };
+
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find(filters);
     res.json(tasks);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });

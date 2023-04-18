@@ -3,8 +3,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 
-const server = require("http").createServer(app);
-
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -21,6 +19,7 @@ app.use("/tasks", require("./routes/tasks"));
 app.use("/users", require("./routes/users"));
 
 const PORT = process.env.PORT || 3000;
+const server = require("http").createServer(app);
 
 if (process.env.NODE_ENV !== "test") {
   server.listen(PORT, () => {

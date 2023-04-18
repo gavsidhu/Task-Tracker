@@ -12,6 +12,7 @@ beforeAll(async () => {
       useCreateIndex: true,
     }
   );
+  await User.deleteMany();
 });
 
 afterAll(async () => {

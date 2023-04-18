@@ -84,6 +84,133 @@ describe("Tasks API", () => {
     expect(res.body.dueDate).toBe(updates.dueDate);
   });
 
+  it("should return tasks filtered by title", async () => {
+    const task1 = new Task({
+      title: "Task 1",
+      description: "Task 1 description",
+      status: "not started",
+      dueDate: "2023-05-01T00:00:00.000Z",
+    });
+    const task2 = new Task({
+      title: "Task 2",
+      description: "Task 2 description",
+      status: "in progress",
+      dueDate: "2023-05-05T00:00:00.000Z",
+    });
+    const task3 = new Task({
+      title: "Task 3",
+      description: "Task 3 description",
+      status: "completed",
+      dueDate: "2023-05-10T00:00:00.000Z",
+    });
+    await Promise.all([task1.save(), task2.save(), task3.save()]);
+    const res = await request(server).get("/tasks?title=Task 1");
+    expect(res.status).toBe(200);
+    expect(res.body.length).toBe(1);
+    expect(res.body[0].title).toBe("Task 1");
+  });
+
+  it("should return tasks filtered by status", async () => {
+    const task1 = new Task({
+      title: "Task 1",
+      description: "Task 1 description",
+      status: "not started",
+      dueDate: "2023-05-01T00:00:00.000Z",
+    });
+    const task2 = new Task({
+      title: "Task 2",
+      description: "Task 2 description",
+      status: "in progress",
+      dueDate: "2023-05-05T00:00:00.000Z",
+    });
+    const task3 = new Task({
+      title: "Task 3",
+      description: "Task 3 description",
+      status: "completed",
+      dueDate: "2023-05-10T00:00:00.000Z",
+    });
+    await Promise.all([task1.save(), task2.save(), task3.save()]);
+    const res = await request(server).get("/tasks?status=in progress");
+    expect(res.status).toBe(200);
+    expect(res.body.length).toBe(1);
+    expect(res.body[0].title).toBe("Task 2");
+  });
+
+  it("should return tasks filtered by due date", async () => {
+    const dueDate = new Date("2023-05-05T00:00:00.000Z").toISOString();
+    const task1 = new Task({
+      title: "Task 1",
+      description: "Task 1 description",
+      status: "not started",
+      dueDate: "2023-05-01T00:00:00.000Z",
+    });
+    const task2 = new Task({
+      title: "Task 2",
+      description: "Task 2 description",
+      status: "in progress",
+      dueDate: dueDate,
+    });
+    const task3 = new Task({
+      title: "Task 3",
+      description: "Task 3 description",
+      status: "completed",
+      dueDate: "2023-05-10T00:00:00.000Z",
+    });
+    await Promise.all([task1.save(), task2.save(), task3.save()]);
+    const res = await request(server).get(`/tasks?dueDate=${dueDate}`);
+    expect(res.status).toBe(200);
+    expect(res.body.length).toBe(1);
+    expect(res.body[0].title).toBe("Task 2");
+  });
+
+  it("should return tasks filtered by due date before", async () => {
+    const dueDate = new Date("2023-05-05T00:00:00.000Z").toISOString();
+    const task1 = new Task({
+      title: "Task 1",
+      description: "Task 1 description",
+      status: "not started",
+      dueDate: "2023-05-01T00:00:00.000Z",
+    });
+    const task2 = new Task({
+      title: "Task 2",
+      description: "Task 2 description",
+      status: "in progress",
+      dueDate: dueDate,
+    });
+    const task3 = new Task({
+      title: "Task 3",
+      description: "Task 3 description",
+      status: "completed",
+      dueDate: "2023-05-10T00:00:00.000Z",
+    });
+    await Promise.all([task1.save(), task2.save(), task3.save()]);
+    const res = await request(server).get(`/tasks?dueDateBefore=${dueDate}`);
+    expect(res.status).toBe(200);
+    expect(res.body.length).toBe(2);
+    expect(res.body[0].title).toBe("Task 1");
+    expect(res.body[1].title).toBe("Task 2");
+  });
+  it("should update a task with the specified id", async () => {
+    const task = new Task({
+      title: "New Task",
+      description: "Task Description",
+      status: "not started",
+      dueDate: "2023-05-01T00:00:00.000Z",
+    });
+    await task.save();
+    const updates = {
+      title: "Updated Task",
+      status: "in progress",
+      dueDate: "2023-05-02T00:00:00.000Z",
+    };
+    const res = await request(server).patch(`/tasks/${task._id}`).send(updates);
+    expect(res.status).toBe(200);
+    expect(res.body.title).toBe(updates.title);
+    expect(res.body.description).toBe(task.description);
+    expect(res.body.status).toBe(updates.status);
+    expect(res.body.dueDate).toBe(updates.dueDate);
+  });
+
   it("should delete a task with the specified id", async () => {
     const task = new Task({
       title: "New Task",
