@@ -8,7 +8,6 @@ router.get("/", async (req, res) => {
     const tasks = await Task.find();
     res.json(tasks);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -23,7 +22,6 @@ router.get("/:id", async (req, res) => {
       res.json(task);
     }
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -46,7 +44,6 @@ router.patch("/:id", async (req, res) => {
     const task = await Task.findByIdAndUpdate(id, updates, { new: true });
     res.json(task);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -57,7 +54,6 @@ router.delete("/:id", async (req, res) => {
     const task = await Task.findByIdAndDelete(id);
     res.json(task);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });

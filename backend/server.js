@@ -1,27 +1,31 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const usersRoutes = require("./routes/users");
-const tasksRoutes = require("./routes/tasks");
-require("dotenv").config();
+const cors = require("cors");
+const app = express();
 
-// Connect to MongoDB
+const server = require("http").createServer(app);
+
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-// Create Express app
-const app = express();
-
-// Middleware
 app.use(express.json());
+app.use(cors());
 
-// Routes
-app.use("/users", userRoutes);
-app.use("/tasks", taskRoutes);
-
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to the Task Manager API" });
 });
+
+app.use("/tasks", require("./routes/tasks"));
+app.use("/users", require("./routes/users"));
+
+const PORT = process.env.PORT || 3000;
+
+if (process.env.NODE_ENV !== "test") {
+  server.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+  });
+}
+
+module.exports = server; // export the server instance

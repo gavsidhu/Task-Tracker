@@ -8,7 +8,6 @@ router.get("/", async (req, res) => {
     const users = await User.find();
     res.json(users);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -23,7 +22,6 @@ router.get("/:id", async (req, res) => {
       res.json(user);
     }
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -34,7 +32,6 @@ router.post("/", async (req, res) => {
     await user.save();
     res.status(201).json(user);
   } catch (error) {
-    console.error(error);
     res.status(400).json({ message: "Bad Request" });
   }
 });
@@ -46,7 +43,6 @@ router.patch("/:id", async (req, res) => {
     const user = await User.findByIdAndUpdate(id, updates, { new: true });
     res.json(user);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -57,7 +53,6 @@ router.delete("/:id", async (req, res) => {
     const user = await User.findByIdAndDelete(id);
     res.json(user);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
