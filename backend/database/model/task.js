@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-
 const taskSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -11,9 +9,11 @@ const taskSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  completed: {
-    type: Boolean,
-    default: false,
+  status: {
+    type: String,
+    required: true,
+    enum: ["not started", "in progress", "completed"],
+    default: "not started",
   },
 });
 

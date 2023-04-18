@@ -29,11 +29,13 @@ describe("Tasks API", () => {
     const task = {
       title: "New Task",
       description: "Task Description",
+      status: "not started",
     };
     const res = await request(server).post("/tasks").send(task);
     expect(res.status).toBe(201);
     expect(res.body.title).toBe(task.title);
     expect(res.body.description).toBe(task.description);
+    expect(res.body.status).toBe(task.status);
     expect(res.body.completed).toBe(false);
   });
 
@@ -41,12 +43,14 @@ describe("Tasks API", () => {
     const task = new Task({
       title: "New Task",
       description: "Task Description",
+      status: "not started",
     });
     await task.save();
     const res = await request(server).get(`/tasks/${task._id}`);
     expect(res.status).toBe(200);
     expect(res.body.title).toBe(task.title);
     expect(res.body.description).toBe(task.description);
+    expect(res.body.status).toBe(task.status);
     expect(res.body.completed).toBe(false);
   });
 
@@ -61,16 +65,19 @@ describe("Tasks API", () => {
     const task = new Task({
       title: "New Task",
       description: "Task Description",
+      status: "not started",
     });
     await task.save();
     const updates = {
       title: "Updated Task",
+      status: "in progress",
       completed: true,
     };
     const res = await request(server).patch(`/tasks/${task._id}`).send(updates);
     expect(res.status).toBe(200);
     expect(res.body.title).toBe(updates.title);
     expect(res.body.description).toBe(task.description);
+    expect(res.body.status).toBe(updates.status);
     expect(res.body.completed).toBe(true);
   });
 
@@ -78,6 +85,7 @@ describe("Tasks API", () => {
     const task = new Task({
       title: "New Task",
       description: "Task Description",
+      status: "not started",
     });
     await task.save();
     const res = await request(server).delete(`/tasks/${task._id}`);
