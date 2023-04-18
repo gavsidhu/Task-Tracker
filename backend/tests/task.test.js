@@ -30,12 +30,14 @@ describe("Tasks API", () => {
       title: "New Task",
       description: "Task Description",
       status: "not started",
+      dueDate: "2023-05-01T00:00:00.000Z",
     };
     const res = await request(server).post("/tasks").send(task);
     expect(res.status).toBe(201);
     expect(res.body.title).toBe(task.title);
     expect(res.body.description).toBe(task.description);
     expect(res.body.status).toBe(task.status);
+    expect(res.body.dueDate).toBe(task.dueDate);
   });
 
   it("should return a task with the specified id", async () => {
@@ -43,6 +45,7 @@ describe("Tasks API", () => {
       title: "New Task",
       description: "Task Description",
       status: "not started",
+      dueDate: "2023-05-01T00:00:00.000Z",
     });
     await task.save();
     const res = await request(server).get(`/tasks/${task._id}`);
@@ -50,6 +53,7 @@ describe("Tasks API", () => {
     expect(res.body.title).toBe(task.title);
     expect(res.body.description).toBe(task.description);
     expect(res.body.status).toBe(task.status);
+    expect(res.body.dueDate).toBe(task.dueDate.toISOString());
   });
 
   it("should return a 404 error for non-existent task id", async () => {
@@ -64,17 +68,20 @@ describe("Tasks API", () => {
       title: "New Task",
       description: "Task Description",
       status: "not started",
+      dueDate: "2023-05-01T00:00:00.000Z",
     });
     await task.save();
     const updates = {
       title: "Updated Task",
       status: "in progress",
+      dueDate: "2023-05-02T00:00:00.000Z",
     };
     const res = await request(server).patch(`/tasks/${task._id}`).send(updates);
     expect(res.status).toBe(200);
     expect(res.body.title).toBe(updates.title);
     expect(res.body.description).toBe(task.description);
     expect(res.body.status).toBe(updates.status);
+    expect(res.body.dueDate).toBe(updates.dueDate);
   });
 
   it("should delete a task with the specified id", async () => {
@@ -82,6 +89,7 @@ describe("Tasks API", () => {
       title: "New Task",
       description: "Task Description",
       status: "not started",
+      dueDate: "2023-05-01T00:00:00.000Z",
     });
     await task.save();
     const res = await request(server).delete(`/tasks/${task._id}`);
