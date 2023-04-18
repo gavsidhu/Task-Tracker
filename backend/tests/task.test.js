@@ -36,7 +36,6 @@ describe("Tasks API", () => {
     expect(res.body.title).toBe(task.title);
     expect(res.body.description).toBe(task.description);
     expect(res.body.status).toBe(task.status);
-    expect(res.body.completed).toBe(false);
   });
 
   it("should return a task with the specified id", async () => {
@@ -51,7 +50,6 @@ describe("Tasks API", () => {
     expect(res.body.title).toBe(task.title);
     expect(res.body.description).toBe(task.description);
     expect(res.body.status).toBe(task.status);
-    expect(res.body.completed).toBe(false);
   });
 
   it("should return a 404 error for non-existent task id", async () => {
@@ -71,14 +69,12 @@ describe("Tasks API", () => {
     const updates = {
       title: "Updated Task",
       status: "in progress",
-      completed: true,
     };
     const res = await request(server).patch(`/tasks/${task._id}`).send(updates);
     expect(res.status).toBe(200);
     expect(res.body.title).toBe(updates.title);
     expect(res.body.description).toBe(task.description);
     expect(res.body.status).toBe(updates.status);
-    expect(res.body.completed).toBe(true);
   });
 
   it("should delete a task with the specified id", async () => {
