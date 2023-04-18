@@ -1,11 +1,27 @@
 const express = require("express");
-const app = express();
+const mongoose = require("mongoose");
+const usersRoutes = require("./routes/users");
+const tasksRoutes = require("./routes/tasks");
+require("dotenv").config();
 
-app.get("/", (req, res) => {
-  res.send("Hello, world!");
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+// Create Express app
+const app = express();
+
+// Middleware
+app.use(express.json());
+
+// Routes
+app.use("/users", userRoutes);
+app.use("/tasks", taskRoutes);
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
