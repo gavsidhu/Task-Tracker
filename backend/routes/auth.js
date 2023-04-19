@@ -1,26 +1,25 @@
 const express = require("express");
 const JWT = require("jsonwebtoken");
-const bcrypt = require('bcrypt')
+const bcrypt = require("bcrypt");
 const User = require("../database/model/user");
 
 const router = express.Router();
-
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  const user = User.findOne({ email });
+  const user = await User.findOne({ email });
 
   if (!user) {
     return res.status(400).json({ message: "Invalid credentials" });
   }
 
-  isMatch = brcrpt.compare(password, user.password);
+  const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
-    return res.status(400).message({ message: "Invalid credentialss" });
+    return res.status(400).json({ message: "Invalid credentials" });
   }
 
-  const token = JWT.sign({ email: newUser.email }, process.env.JWT_SECRET, {
+  const token = JWT.sign({ email: user.email }, process.env.JWT_SECRET, {
     expiresIn: 360000,
   });
 
@@ -31,34 +30,37 @@ router.post("/login", async (req, res) => {
     },
   });
 });
-
 router.post("/register", async (req, res) => {
   const { email, password, name } = req.body;
 
-  const user = await User.findOne({ email });
+  try {
+    const userExists = await User.findOne({ email });
 
-  if (user) {
-    return res.status(400).json({ message: "User with email already exitst" });
+    if (userExists) {
+      return res
+        .status(400)
+        .json({ message: "User with email already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await User.create({
+      email,
+      password: hashedPassword,
+      name,
+    });
+
+    const token = JWT.sign({ email: newUser.email }, process.env.JWT_SECRET, {
+      expiresIn: 360000,
+    });
+
+    return res.status(201).json({
+      token,
+      user: newUser,
+    });
+  } catch (error) {
+    return res.status(400).json({ message: "Bad Request" });
   }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const newUser = await User.create({
-    email,
-    password: hashedPassword,
-    name
-  });
-
-  const token = JWT.sign({ email: newUser.email }, process.env.JWT_SECRET, {
-    expiresIn: 360000,
-  });
-
-  return res.status(200).json({
-    token,
-    user: {
-      email: newUser.email
-    },
-  });
 });
 
 module.exports = router;

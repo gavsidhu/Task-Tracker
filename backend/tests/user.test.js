@@ -9,7 +9,6 @@ beforeAll(async () => {
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true,
     }
   );
   await User.deleteMany();
@@ -32,16 +31,17 @@ describe("Users API", () => {
     });
   });
 
-  describe("POST /users", () => {
+  describe("POST /register", () => {
     it("should create a new user", async () => {
       const user = {
         name: "John Doe",
         email: "johndoe@example.com",
         password: "password123",
       };
-      const res = await request(server).post("/users").send(user);
+      const res = await request(server).post("/auth/register").send(user);
       expect(res.status).toBe(201);
-      expect(res.body).toMatchObject(user);
+      expect(res.body.token).toBeDefined();
+      expect(res.body.user).toBeDefined();
     });
 
     it("should return a 400 error for invalid input", async () => {
@@ -50,7 +50,7 @@ describe("Users API", () => {
         email: "invalid_email",
         password: "password123",
       };
-      const res = await request(server).post("/users").send(user);
+      const res = await request(server).post("/auth/register").send(user);
       expect(res.status).toBe(400);
       expect(res.body.message).toBe("Bad Request");
     });

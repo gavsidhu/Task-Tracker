@@ -9,6 +9,7 @@ describe("Tasks API", () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
+    await Task.deleteMany();
   });
 
   afterAll(async () => {
