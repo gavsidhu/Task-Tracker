@@ -3,14 +3,18 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 const AuthContext = createContext({
   user: null,
+  loading: false
 });
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false)
+
 
   const fetchUser = async () => {
-    const response = await axios.get("http://localhost:3001/auth/me");
-    console.log("me: ", response.data)
+    setLoading(true)
+    try {
+      const response = await axios.get("http://localhost:3001/auth/me");
 
     if (response.data && response.data.user) {
       setUser({
@@ -18,6 +22,11 @@ export const AuthProvider = ({ children }) => {
       });
     } else {
       setUser(null);
+    }
+    setLoading(false)
+    } catch (error) {
+      console.error(error)
+      setLoading(false)
     }
   };
 
@@ -31,7 +40,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
   return (
-    <AuthContext.Provider value={{user,setUser}}>
+    <AuthContext.Provider value={{user,setUser, loading}}>
       {children}
     </AuthContext.Provider>
   );
