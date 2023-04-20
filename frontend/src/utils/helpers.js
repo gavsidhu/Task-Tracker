@@ -47,3 +47,13 @@ export const deleteTask = async(taskId) => {
         console.error(error)
     }
 }
+
+export const formatDate = (dateString) => {
+    const dateArray = dateString.split('T')[0].split('-');
+    const date = new Date(dateArray[0], dateArray[1] - 1, dateArray[2]);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  };
