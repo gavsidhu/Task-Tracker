@@ -2,8 +2,8 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import { AuthProvider } from "./hooks/useAuth";
-import Home from "./components/HomeTest";
 import ProtectedRoute from "./components/ProtectedRoute";
+import HomeTest from "./components/HomeTest";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/" element={<ProtectedRoute />}>
-            <Route path="/" element={<HomeTest/>} />
+            <Route path="/" element={<Home/>} />
           </Route>
         </Routes>
       </AuthProvider>
