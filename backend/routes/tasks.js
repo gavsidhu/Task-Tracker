@@ -1,15 +1,18 @@
 const express = require("express");
 const Task = require("../database/model/task");
+const checkAuth = require("../middleware/checkAuth");
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", checkAuth, async (req, res) => {
   const { title, status, dueDate, dueDateBefore } = req.query;
+  const user = req.user
   const filters = {
     ...(title && { title: { $regex: title, $options: "i" } }),
     ...(status && { status }),
     ...(dueDate && { dueDate: dueDate }),
     ...(dueDateBefore && { dueDate: { $lte: dueDateBefore } }),
+    ...(user && { user }),
   };
 
   try {
