@@ -1,0 +1,32 @@
+.task-card {
+    background-color: #f8f8f8;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 20px;
+    margin: 10px;
+    max-width: 300px;
+  }
+  
+  .task-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .task-description {
+    margin-bottom: 10px;
+  }
+  
+  .task-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+  
+  .task-status {
+    color: #4caf50;
+  }
+  
+  .task-due-date {
+    color: #f44336;
+  }

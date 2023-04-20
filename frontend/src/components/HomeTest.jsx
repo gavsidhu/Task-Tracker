@@ -1,8 +1,37 @@
+import { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
+import {
+  addTask,
+  deleteTask,
+  getAllTasks,
+  sortTasks,
+  updateTask,
+} from "../utils/helpers";
+import SortDropdown from "./SortDropdown";
+import TaskCard from "./TaskCard";
+import TaskList from "./TaskList";
 
 const HomeTest = () => {
-    return(
-        <h1>Home</h1>
-    )
-}
+  const [tasks, setTasks] = useState([]);
 
-export default HomeTest
+  useEffect(() => {
+    (async () => {
+      const allTasks = await getAllTasks();
+      setTasks(allTasks);
+    })();
+  }, []);
+
+  const handleSort = (sortBy) => {
+    const newSortedTasks = sortTasks([...tasks], sortBy);
+    setTasks(newSortedTasks);
+  };
+
+  return (
+    <>
+      <h1>Home</h1>
+      <TaskList />
+    </>
+  );
+};
+
+export default HomeTest;
