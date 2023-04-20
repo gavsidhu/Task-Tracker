@@ -2,6 +2,7 @@ const express = require("express");
 const JWT = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../database/model/user");
+const checkAuth = require("../middleware/checkAuth")
 
 const router = express.Router();
 router.post("/login", async (req, res) => {
@@ -58,6 +59,19 @@ router.post("/register", async (req, res) => {
       token,
       user: newUser,
     });
+  } catch (error) {
+    return res.status(400).json({ message: "Bad Request" });
+  }
+});
+
+router.get("/me", checkAuth, async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user });
+  return res.status(200).json({
+      user: {
+        email: user.email,
+      },
+  });
   } catch (error) {
     return res.status(400).json({ message: "Bad Request" });
   }
