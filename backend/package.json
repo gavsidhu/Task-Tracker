@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "dotenv -e .env nodemon server.js",
+    "start": "node server.js",
     "test": "dotenv -e .test.env jest --env .test.env --detectOpenHandles"
   },
   "keywords": [],
