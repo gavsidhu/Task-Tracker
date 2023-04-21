@@ -17,7 +17,7 @@ export const sortTasks = (tasks, sortBy) => {
 
 export const getAllTasks = async () => {
     try {
-        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/tasks`)
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}tasks`)
     return response.data
     } catch (error) {
         console.error(error)
@@ -26,7 +26,7 @@ export const getAllTasks = async () => {
 
 export const addTask = async(task) => {
     try {
-        await axios.post(`${process.env.REACT_APP_SERVER_URL}/tasks`, task)
+        await axios.post(`${process.env.REACT_APP_SERVER_URL}tasks`, task)
     } catch (error) {
         console.error(error)
     }
