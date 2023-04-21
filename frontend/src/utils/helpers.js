@@ -17,7 +17,7 @@ export const sortTasks = (tasks, sortBy) => {
 
 export const getAllTasks = async () => {
     try {
-        const response = await axios.get("http://localhost:3001/tasks")
+        const response = await axios.get(`${process.env.SERVER_URL}/tasks`)
     return response.data
     } catch (error) {
         console.error(error)
@@ -26,7 +26,7 @@ export const getAllTasks = async () => {
 
 export const addTask = async(task) => {
     try {
-        await axios.post("http://localhost:3001/tasks", task)
+        await axios.post(`${process.env.SERVER_URL}/tasks`, task)
     } catch (error) {
         console.error(error)
     }
@@ -34,7 +34,7 @@ export const addTask = async(task) => {
 
 export const updateTask = async(taskId, updateData) => {
     try {
-        await axios.patch(`http://localhost:3001/tasks/${taskId}`, updateData)
+        await axios.patch(`${process.env.SERVER_URL}tasks/${taskId}`, updateData)
     } catch (error) {
         console.error(error)
     }
@@ -42,7 +42,7 @@ export const updateTask = async(taskId, updateData) => {
 
 export const deleteTask = async(taskId) => {
     try {
-        await axios.delete(`http://localhost:3001/tasks/${taskId}`)
+        await axios.delete(`${process.env.SERVER_URL}tasks/${taskId}`)
     } catch (error) {
         console.error(error)
     }

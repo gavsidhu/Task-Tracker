@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   const fetchUser = async () => {
     setLoading(true)
     try {
-      const response = await axios.get("http://localhost:3001/auth/me");
+      const response = await axios.get(`${process.env.SERVER_URL}/auth/me`);
 
     if (response.data && response.data.user) {
       setUser({

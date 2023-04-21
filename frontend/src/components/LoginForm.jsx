@@ -28,7 +28,7 @@ const LoginForm = () => {
     e.preventDefault();
     if (isLogin) {
       try {
-        const res = await axios.post("http://localhost:3001/auth/login", {
+        const res = await axios.post(`${process.env.SERVER_URL}auth/login`, {
         email,
         password,
       });
@@ -41,7 +41,7 @@ const LoginForm = () => {
       }
     } else {
       try {
-        const res = await axios.post("http://localhost:3001/auth/register", {
+        const res = await axios.post(`${process.env.SERVER_URL}auth/register`, {
         name,
         email,
         password,
