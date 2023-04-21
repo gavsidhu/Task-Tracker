@@ -57,6 +57,7 @@ const TaskList = () => {
       >
         Add Task
       </button>
+      <p style={{padding:"8px 0px 8px 0px"}}>Click on a task to edit it</p>
       <div className="sort-container">
       <SortDropdown onSort={handleSort} />
       </div>
