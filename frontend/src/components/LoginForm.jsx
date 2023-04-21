@@ -33,6 +33,7 @@ const LoginForm = () => {
         password,
       });
       localStorage.setItem("token",res.data.token)
+      axios.defaults.headers.common["authorization"] = `Bearer ${res.data.token}`;
       setUser(res.data.user)
       navigate('/')
       } catch (error) {
@@ -46,6 +47,7 @@ const LoginForm = () => {
         password,
       });
       localStorage.setItem("token",res.data.token)
+      axios.defaults.headers.common["authorization"] = `Bearer ${res.data.token}`;
       setUser(res.data.user)
       navigate('/')
       } catch (error) {
@@ -55,7 +57,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="container">
+    <div>
       <h1>{isLogin ? "Login" : "Sign Up"}</h1>
       <a className="switch" onClick={switchMode}>
         {isLogin

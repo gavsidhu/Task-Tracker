@@ -25,3 +25,7 @@
     flex-wrap: wrap;
     justify-content: center;
   }
+
+  .sort-container{
+    width: 15%;
+  }

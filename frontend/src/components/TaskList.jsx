@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TaskCard from "./TaskCard";
 import AddTaskModal from "./AddTaskModal";
 import "../styles/TaskList.css";
-import { addTask, getAllTasks, sortTasks, updateTask } from "../utils/helpers";
+import { addTask, deleteTask, getAllTasks, sortTasks, updateTask } from "../utils/helpers";
 import SortDropdown from "./SortDropdown";
 import UpdateTaskModal from "./UpdateTask";
 
@@ -37,6 +37,13 @@ const TaskList = () => {
     setIsUpdateModalOpen(false);
   };
 
+  const handleDeleteTask = async () => {
+    await deleteTask(tasks[selectedTaskIndex]._id)
+    const allTasks = await getAllTasks();
+    setTasks(allTasks);
+    setIsUpdateModalOpen(false);
+  };
+
   const handleTaskClick = (index) => {
     setSelectedTaskIndex(index);
     setIsUpdateModalOpen(true);
@@ -50,21 +57,26 @@ const TaskList = () => {
       >
         Add Task
       </button>
+      <div className="sort-container">
       <SortDropdown onSort={handleSort} />
+      </div>
       <AddTaskModal
         isOpen={isAddModalOpen}
         onSubmit={handleAddTask}
         onClose={() => setIsAddModalOpen(false)}
       />
-      <UpdateTaskModal
-        isOpen={isUpdateModalOpen}
-        task={tasks[selectedTaskIndex]}
-        onUpdate={handleUpdateTask}
-        onClose={() => setIsUpdateModalOpen(false)}
-      />
+      {selectedTaskIndex !== null && (
+        <UpdateTaskModal
+          isOpen={isUpdateModalOpen}
+          task={tasks[selectedTaskIndex]}
+          onUpdate={handleUpdateTask}
+          onClose={() => setIsUpdateModalOpen(false)}
+          onDelete={handleDeleteTask}
+        />
+      )}
       <div className="task-list">
-        {tasks.map((task, index) => (
-          <div key={index} onClick={() => handleTaskClick(index)}>
+        {tasks?.map((task, index) => (
+          <div key={task._id} onClick={() => handleTaskClick(index)}>
             <TaskCard
               title={task.title}
               description={task.description}

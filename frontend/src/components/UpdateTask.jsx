@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import '../styles/AddTaskModal.css';
-import useAuth from '../hooks/useAuth';
+import React, { useState, useEffect } from "react";
+import "../styles/TaskModal.css";
+import useAuth from "../hooks/useAuth";
+import { deleteTask } from "../utils/helpers";
 
-const UpdateTaskModal = ({ isOpen, task, onUpdate, onClose }) => {
+const UpdateTaskModal = ({ isOpen, task, onUpdate, onClose, onDelete }) => {
   const { user } = useAuth();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [status, setStatus] = useState('');
-  const [dueDate, setDueDate] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("");
+  const [dueDate, setDueDate] = useState("");
 
   useEffect(() => {
     if (task) {
@@ -31,13 +32,18 @@ const UpdateTaskModal = ({ isOpen, task, onUpdate, onClose }) => {
     onClose();
   };
 
+  const handleDelete = () => {
+    onDelete()
+    onClose();
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="add-task-modal">
-      <div className="add-task-modal-content">
+    <div className="task-modal">
+      <div className="task-modal-content">
         <h2>Update Task</h2>
-        <label>
+        <label className="input-container">
           Title:
           <input
             type="text"
@@ -45,22 +51,25 @@ const UpdateTaskModal = ({ isOpen, task, onUpdate, onClose }) => {
             onChange={(e) => setTitle(e.target.value)}
           />
         </label>
-        <label>
+        <label className="input-container">
           Description:
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </label>
-        <label>
+        <label className="input-container">
           Status:
-          <input
-            type="text"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          />
+          <div className="select-container">
+            <select value={status} onChange={(e) => setStatus(e.target.value)}>
+              <option value="">Select status</option>
+              <option value="Not started">Not started</option>
+              <option value="In progress">In progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
         </label>
-        <label>
+        <label className="input-container">
           Due Date:
           <input
             type="date"
@@ -68,8 +77,15 @@ const UpdateTaskModal = ({ isOpen, task, onUpdate, onClose }) => {
             onChange={(e) => setDueDate(e.target.value)}
           />
         </label>
-        <button onClick={handleSubmit}>Submit</button>
-        <button onClick={onClose}>Cancel</button>
+        <button type="submit" onClick={handleSubmit}>
+          Submit
+        </button>
+        <button type="button" onClick={onClose}>
+          Cancel
+        </button>
+        <button type="button" onClick={handleDelete}>
+          Delete
+        </button>
       </div>
     </div>
   );

@@ -8,8 +8,8 @@ const TaskCard = ({ title, description, status, dueDate }) => {
       <h3 className="task-title">{title}</h3>
       <p className="task-description">{description}</p>
       <div className="task-details">
-        <span className="task-status">Status: {status}</span>
-        <span className="task-due-date">Due: {formatDate(dueDate)}</span>
+        <p className="task-status">Status: {status}</p>
+        <p className="task-due-date">Due: {formatDate(dueDate)}</p>
       </div>
     </div>
   );

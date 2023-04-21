@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import '../styles/AddTaskModal.css';
-import useAuth from '../hooks/useAuth';
+import React, { useState } from "react";
+import "../styles/TaskModal.css";
+import useAuth from "../hooks/useAuth";
 
 const AddTaskModal = ({ isOpen, onSubmit, onClose }) => {
-  const {user} = useAuth()
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [status, setStatus] = useState('');
-  const [dueDate, setDueDate] = useState('');
+  const { user } = useAuth();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("");
+  const [dueDate, setDueDate] = useState("");
 
   const handleSubmit = () => {
     const task = {
@@ -18,20 +18,20 @@ const AddTaskModal = ({ isOpen, onSubmit, onClose }) => {
       user: user.email,
     };
     onSubmit(task);
-    setTitle('');
-    setDescription('');
-    setStatus('');
-    setDueDate('');
+    setTitle("");
+    setDescription("");
+    setStatus("");
+    setDueDate("");
     onClose();
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="add-task-modal">
-      <div className="add-task-modal-content">
+    <div className="task-modal">
+      <div className="task-modal-content">
         <h2>Add Task</h2>
-        <label>
+        <label className="input-container">
           Title:
           <input
             type="text"
@@ -39,22 +39,25 @@ const AddTaskModal = ({ isOpen, onSubmit, onClose }) => {
             onChange={(e) => setTitle(e.target.value)}
           />
         </label>
-        <label>
+        <label className="input-container">
           Description:
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </label>
-        <label>
+        <label className="input-container">
           Status:
-          <input
-            type="text"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          />
+          <div className="select-container">
+            <select value={status} onChange={(e) => setStatus(e.target.value)}>
+              <option value="">Select status</option>
+              <option value="Not started">Not started</option>
+              <option value="In progress">In progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
         </label>
-        <label>
+        <label className="input-container">
           Due Date:
           <input
             type="date"
@@ -62,8 +65,12 @@ const AddTaskModal = ({ isOpen, onSubmit, onClose }) => {
             onChange={(e) => setDueDate(e.target.value)}
           />
         </label>
-        <button onClick={handleSubmit}>Submit</button>
-        <button onClick={onClose}>Cancel</button>
+        <button type="submit" onClick={handleSubmit}>
+          Submit
+        </button>
+        <button type="button" onClick={onClose}>
+          Cancel
+        </button>
       </div>
     </div>
   );
