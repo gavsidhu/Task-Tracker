@@ -15,9 +15,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to the Task Manager API" });
 });
 
-app.use("/tasks", require("./routes/tasks"));
-app.use("/users", require("./routes/users"));
-app.use("/auth", require("./routes/auth"));
+app.use("/tasks", require("../routes/tasks"));
+app.use("/users", require("../routes/users"));
+app.use("/auth", require("../routes/auth"));
 
 const PORT = process.env.PORT || 3000;
 const server = require("http").createServer(app);

@@ -7,7 +7,7 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "dotenv -e .env nodemon api/index.js",
     "test": "dotenv -e .test.env jest --env .test.env --detectOpenHandles"
   },
   "keywords": [],
