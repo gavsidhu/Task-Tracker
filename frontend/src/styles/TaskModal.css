@@ -10,7 +10,7 @@
   align-items: center;
 }
 
-.task-modal-content {
+.task-modal form {
   background-color: #fff;
   border-radius: 4px;
   padding: 20px;
@@ -22,6 +22,7 @@
 
 .input-container {
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 4px;
 }
