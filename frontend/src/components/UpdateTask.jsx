@@ -19,7 +19,8 @@ const UpdateTaskModal = ({ isOpen, task, onUpdate, onClose, onDelete }) => {
     }
   }, [task]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     const updatedTask = {
       ...task,
       title,
@@ -33,7 +34,7 @@ const UpdateTaskModal = ({ isOpen, task, onUpdate, onClose, onDelete }) => {
   };
 
   const handleDelete = () => {
-    onDelete()
+    onDelete(task);
     onClose();
   };
 
@@ -41,7 +42,7 @@ const UpdateTaskModal = ({ isOpen, task, onUpdate, onClose, onDelete }) => {
 
   return (
     <div className="task-modal">
-      <div className="task-modal-content">
+      <form className="task-modal-content" onSubmit={handleSubmit}>
         <h2>Update Task</h2>
         <label className="input-container">
           Title:
@@ -49,6 +50,7 @@ const UpdateTaskModal = ({ isOpen, task, onUpdate, onClose, onDelete }) => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            required
           />
         </label>
         <label className="input-container">
@@ -56,13 +58,13 @@ const UpdateTaskModal = ({ isOpen, task, onUpdate, onClose, onDelete }) => {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            required
           />
         </label>
         <label className="input-container">
           Status:
           <div className="select-container">
-            <select value={status} onChange={(e) => setStatus(e.target.value)}>
-              <option value="">Select status</option>
+            <select value={status} onChange={(e) => setStatus(e.target.value)} required>
               <option value="Not started">Not started</option>
               <option value="In progress">In progress</option>
               <option value="Completed">Completed</option>
@@ -75,9 +77,10 @@ const UpdateTaskModal = ({ isOpen, task, onUpdate, onClose, onDelete }) => {
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
+            required
           />
         </label>
-        <button type="submit" onClick={handleSubmit}>
+        <button type="submit">
           Submit
         </button>
         <button type="button" onClick={onClose}>
@@ -86,7 +89,7 @@ const UpdateTaskModal = ({ isOpen, task, onUpdate, onClose, onDelete }) => {
         <button type="button" onClick={handleDelete}>
           Delete
         </button>
-      </div>
+      </form>
     </div>
   );
 };

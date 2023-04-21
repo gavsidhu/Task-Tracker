@@ -6,10 +6,11 @@ const AddTaskModal = ({ isOpen, onSubmit, onClose }) => {
   const { user } = useAuth();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("Not started");
   const [dueDate, setDueDate] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     const task = {
       title,
       description,
@@ -20,7 +21,7 @@ const AddTaskModal = ({ isOpen, onSubmit, onClose }) => {
     onSubmit(task);
     setTitle("");
     setDescription("");
-    setStatus("");
+    setStatus("Not started");
     setDueDate("");
     onClose();
   };
@@ -29,7 +30,7 @@ const AddTaskModal = ({ isOpen, onSubmit, onClose }) => {
 
   return (
     <div className="task-modal">
-      <div className="task-modal-content">
+      <form className="task-modal-content" onSubmit={handleSubmit}>
         <h2>Add Task</h2>
         <label className="input-container">
           Title:
@@ -37,6 +38,7 @@ const AddTaskModal = ({ isOpen, onSubmit, onClose }) => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            required
           />
         </label>
         <label className="input-container">
@@ -44,13 +46,13 @@ const AddTaskModal = ({ isOpen, onSubmit, onClose }) => {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            required
           />
         </label>
         <label className="input-container">
           Status:
           <div className="select-container">
-            <select value={status} onChange={(e) => setStatus(e.target.value)}>
-              <option value="">Select status</option>
+            <select value={status} onChange={(e) => setStatus(e.target.value)} required >
               <option value="Not started">Not started</option>
               <option value="In progress">In progress</option>
               <option value="Completed">Completed</option>
@@ -63,15 +65,16 @@ const AddTaskModal = ({ isOpen, onSubmit, onClose }) => {
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
+            required
           />
         </label>
-        <button type="submit" onClick={handleSubmit}>
+        <button type="submit">
           Submit
         </button>
         <button type="button" onClick={onClose}>
           Cancel
         </button>
-      </div>
+      </form>
     </div>
   );
 };
