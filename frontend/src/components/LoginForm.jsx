@@ -28,7 +28,7 @@ const LoginForm = () => {
     e.preventDefault();
     if (isLogin) {
       try {
-        const res = await axios.post(`${process.env.SERVER_URL}auth/login`, {
+        const res = await axios.post(`${process.env.REACT_APP_SERVER_URL}auth/login`, {
         email,
         password,
       });
@@ -41,7 +41,7 @@ const LoginForm = () => {
       }
     } else {
       try {
-        const res = await axios.post(`${process.env.SERVER_URL}auth/register`, {
+        const res = await axios.post(`${process.env.REACT_APP_SERVER_URL}auth/register`, {
         name,
         email,
         password,
@@ -57,7 +57,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>{isLogin ? "Login" : "Sign Up"}</h1>
       <a className="switch" onClick={switchMode}>
         {isLogin
